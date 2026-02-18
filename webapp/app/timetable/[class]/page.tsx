@@ -190,6 +190,57 @@ export default function TimetablePage() {
     });
   };
 
+  // 1日通して変更がある場合を判定
+  const isFullDayChange = (date: Date): boolean => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const dateStr = `${year}-${month}-${day}`;
+    
+    // その日のすべての変更を取得
+    const dayChanges = changes.filter(change => 
+      change.date === dateStr && change.classYear === className
+    );
+    
+    // 5時限以上変更がある場合は1日通しての変更とみなす
+    return dayChanges.length >= 5;
+  };
+
+  // 休みの日を判定（自宅学習、休み、なしなどのキーワード）
+  const isHoliday = (date: Date): boolean => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const dateStr = `${year}-${month}-${day}`;
+    
+    // その日の変更を取得
+    const dayChanges = changes.filter(change => 
+      change.date === dateStr && change.classYear === className
+    );
+    
+    // 「自宅学習」「休み」「なし」などのキーワードがあれば休み
+    return dayChanges.some(change => 
+      change.newSubject?.includes('自宅学習') || 
+      change.newSubject?.includes('休み') ||
+      change.newSubject?.includes('なし') ||
+      change.description?.includes('自宅学習') ||
+      change.description?.includes('休み')
+    );
+  };
+
+  // 変更がある日を判定
+  const hasChange = (date: Date): boolean => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const dateStr = `${year}-${month}-${day}`;
+    
+    // その日の変更が1つでもあればtrue
+    return changes.some(change => 
+      change.date === dateStr && change.classYear === className
+    );
+  };
+
   const getPeriodLabel = (period: number): string => {
     return `${period + 1}h`;
   };
@@ -254,8 +305,23 @@ export default function TimetablePage() {
             <div className={styles.periodHeader}>時間割</div>
             {currentWeek.map((date, index) => {
               const weekday = getWeekday(date);
+              const holiday = isHoliday(date);
+              const fullDay = isFullDayChange(date);
+              const changed = hasChange(date);
+              
+              // バッジの優先順位: 休み > 全日変更 > 変更あり
+              let badge = null;
+              if (holiday) {
+                badge = <div className={styles.fullDayBadge}>休み</div>;
+              } else if (fullDay) {
+                badge = <div className={styles.fullDayBadge}>全日変更</div>;
+              } else if (changed) {
+                badge = <div className={styles.changeBadge}>変更あり</div>;
+              }
+              
               return (
-                <div key={index} className={styles.dayHeader}>
+                <div key={index} className={`${styles.dayHeader} ${holiday ? styles.fullDayHeader : ''}`}>
+                  {badge}
                   <div className={styles.weekday}>{weekday}</div>
                   <div className={styles.date}>{formatDate(date)}</div>
                 </div>

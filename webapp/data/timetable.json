@@ -52,7 +52,7 @@
       { "period": 2, "subject": "情報プロ", "location": "SY", "color": "green" },
       { "period": 3, "subject": "情報テク", "location": "DS", "color": "blue" },
       { "period": 4, "subject": "データベース/ メディア", "location": "SY / MM", "color": "red", "color2": "yellow" },
-      { "period": 5, "subject": "コンテンツ/ ネットワーク", "location": "", "color": "#00FFFF" }
+      { "period": 5, "subject": "コンテンツ/ ネットワーク", "location": "MM / PG,NW", "color": "cyan", "color2": "blue" }
 
     ]
   },
