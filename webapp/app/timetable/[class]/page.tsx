@@ -7,6 +7,17 @@ import timetableData from '@/data/timetable.json';
 import { Period, Change, CourseSelection } from '@/types/timetable';
 import styles from './page.module.css';
 
+export async function generateStaticParams() {
+  return [
+    { class: '1F' },
+    { class: '2F' },
+    { class: '3F' },
+    { class: '1M' },
+    { class: '2M' },
+    { class: '3M' },
+  ];
+}
+
 export default function TimetablePage() {
   const params = useParams();
   const router = useRouter();
