@@ -138,24 +138,40 @@ export default function TimetablePage() {
     const schedule = (timetableData as any)[className];
     if (!schedule || !schedule[weekday]) return [];
     
-    // 選択に応じて科目名を修正
+    // 選択に応じて科目名と教室を修正
     return schedule[weekday].map((period: Period) => {
       let subject = period.subject;
+      let location = period.location;
       
       // パターン1: データベース / メディアとサービス
       if (subject.includes('データベース') && subject.includes('メディア')) {
         subject = courseSelection.specialty === 'system' ? 'データベース' : 'メディア';
+        // "SY / MM" → システムならSY、デザインならMM
+        if (location && location.includes('/')) {
+          const [systemLoc, designLoc] = location.split('/').map(s => s.trim());
+          location = courseSelection.specialty === 'system' ? systemLoc : designLoc;
+        }
       }
       // パターン2: コンテンツ / ネットワーク
       else if (subject.includes('コンテンツ') && subject.includes('ネットワーク')) {
         subject = courseSelection.specialty === 'design' ? 'コンテンツ' : 'ネットワーク';
+        // "MM / PG,NW" → デザインならMM、システムならPG,NW
+        if (location && location.includes('/')) {
+          const [designLoc, systemLoc] = location.split('/').map(s => s.trim());
+          location = courseSelection.specialty === 'design' ? designLoc : systemLoc;
+        }
       }
       // パターン3: 数学Ⅱ / 英語Ⅱ
       else if (subject.includes('数学') && subject.includes('英語')) {
         subject = courseSelection.language === 'math' ? '数学Ⅱ' : '英語Ⅱ';
+        // "/プロA,B" → 数学なら空、英語ならプロA,B
+        if (location && location.includes('/')) {
+          const [mathLoc, englishLoc] = location.split('/').map(s => s.trim());
+          location = courseSelection.language === 'math' ? mathLoc : englishLoc;
+        }
       }
       
-      return { ...period, subject };
+      return { ...period, subject, location };
     });
   };
 
