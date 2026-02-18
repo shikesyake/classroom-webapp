@@ -5,7 +5,6 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "postinstall": "npm --prefix webapp install --legacy-peer-deps",
     "start": "node dist/index.js",
     "dev": "ts-node src/index.ts",
     "fetch": "ts-node src/fetchFormData.ts"

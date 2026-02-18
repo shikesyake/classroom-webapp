@@ -4,19 +4,17 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "build:pages": "next build && npx @cloudflare/next-on-pages",
+    "build": "node scripts/prepare-data.js && next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "js-cookie": "^3.0.5",
-    "next": "^14.3.0",
+    "next": "^14.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@cloudflare/next-on-pages": "^1.13.10",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^20.11.0",
     "@types/react": "^18.2.48",

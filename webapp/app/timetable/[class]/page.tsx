@@ -48,7 +48,7 @@ export default function TimetablePage() {
 
   const loadChanges = async () => {
     try {
-      const response = await fetch('/api/changes');
+      const response = await fetch('/changes.json');
       if (!response.ok) {
         throw new Error('授業変更データの取得に失敗しました');
       }
