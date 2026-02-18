@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # このスクリプトはcronジョブを設定します
-# 1日おきに午前2時にGoogleフォームから授業変更情報を取得します
+# 2日おきに午前2時にGoogleフォームから授業変更情報を取得します
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
