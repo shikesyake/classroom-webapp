@@ -1,11 +1,17 @@
-'use client';
-
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import timetableData from '@/data/timetable.json';
 import { Period, Change, CourseSelection } from '@/types/timetable';
 import styles from './page.module.css';
+
+export async function generateStaticParams() {
+  return Object.keys(timetableData).map(className => ({
+    class: className,
+  }));
+}
+
+'use client';
 
 export default function TimetablePage() {
   const params = useParams();
