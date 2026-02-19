@@ -1,3 +1,5 @@
+'use client';
+
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
@@ -10,8 +12,6 @@ export async function generateStaticParams() {
     class: className,
   }));
 }
-
-'use client';
 
 export default function TimetablePage() {
   const params = useParams();
