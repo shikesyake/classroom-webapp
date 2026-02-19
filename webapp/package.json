@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "node scripts/prepare-data.js && next build",
+    "deploy": "node scripts/prepare-data.js && next build",
     "start": "next start",
     "lint": "next lint"
   },
