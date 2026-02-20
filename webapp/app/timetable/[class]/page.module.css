@@ -2,6 +2,8 @@
   min-height: 100vh;
   background: #1a1a2e;
   padding: 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .header {
@@ -101,17 +103,17 @@
   background: white;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  padding: 1rem;
+  padding: 0.75rem;
   -webkit-overflow-scrolling: touch;
 }
 
 .timetable {
   display: grid;
-  gap: 0.5rem;
+  gap: 0.4rem;
   min-width: min-content;
   align-content: start;
-  grid-auto-rows: 85px;
-  grid-auto-columns: minmax(120px, 1fr);
+  grid-auto-rows: 72px;
+  grid-auto-columns: minmax(110px, 1fr);
 }
 
 .headerRow {
@@ -136,11 +138,11 @@
 .dayHeader {
   background: #34495e;
   color: white;
-  padding: 0.75rem;
+  padding: 0.6rem;
   border-radius: 8px;
   text-align: center;
   position: relative;
-  min-width: 120px;
+  min-width: 110px;
 }
 
 .fullDayHeader {
@@ -198,7 +200,7 @@
 }
 
 .period {
-  padding: 1rem;
+  padding: 0.6rem;
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -207,7 +209,7 @@
   font-weight: 600;
   text-align: center;
   transition: transform 0.2s ease;
-  min-width: 120px;
+  min-width: 110px;
 }
 
 .period:hover {
@@ -217,7 +219,7 @@
 .emptyPeriod {
   background: #ecf0f1;
   border-radius: 8px;
-  min-width: 120px;
+  min-width: 110px;
 }
 
 .subjectName {
@@ -346,18 +348,18 @@
   }
   
   .timetable {
-    grid-auto-columns: minmax(120px, 1fr);
+    grid-auto-columns: minmax(110px, 1fr);
   }
   
   .period {
     font-size: 0.8rem;
     padding: 0.5rem;
     min-height: 60px;
-    min-width: 120px;
+    min-width: 110px;
   }
   
   .dayHeader {
-    min-width: 120px;
+    min-width: 110px;
   }
   
   .periodLabel {
