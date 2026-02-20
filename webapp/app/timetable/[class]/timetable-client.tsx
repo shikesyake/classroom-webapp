@@ -77,40 +77,47 @@ export default function TimetableClient() {
   };
 
   const generateDefaultWeek = () => {
-    // 今日から平日5日分の日付を生成
+    // 今週の月曜日から平日5日分の日付を生成
     const today = new Date();
-    const week: Date[] = [];
-    let daysAdded = 0;
-    let offset = 0;
+    const dayOfWeek = today.getDay();
     
-    while (daysAdded < 5) {
-      const date = new Date(today);
-      date.setDate(today.getDate() + offset);
-      const dayOfWeek = date.getDay();
-      
-      // 平日のみ追加（0=日曜, 6=土曜を除外）
-      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
-        week.push(date);
-        daysAdded++;
-      }
-      offset++;
+    // 今週の月曜日を計算（日曜日=0の場合は前週の月曜日）
+    const monday = new Date(today);
+    const daysFromMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+    monday.setDate(today.getDate() + daysFromMonday);
+    
+    const week: Date[] = [];
+    
+    // 月曜日から金曜日まで追加
+    for (let i = 0; i < 5; i++) {
+      const date = new Date(monday);
+      date.setDate(monday.getDate() + i);
+      week.push(date);
     }
+    
     setCurrentWeek(week);
   };
 
   const generateWeekUpTo = (maxDate: Date) => {
-    // 今日から最後の日付までの平日を生成
+    // 今週の月曜日から最後の日付までの平日を生成
     const today = new Date();
+    const dayOfWeek = today.getDay();
+    
+    // 今週の月曜日を計算（日曜日=0の場合は前週の月曜日）
+    const monday = new Date(today);
+    const daysFromMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+    monday.setDate(today.getDate() + daysFromMonday);
+    
     const week: Date[] = [];
     let offset = 0;
     
     while (true) {
-      const date = new Date(today);
-      date.setDate(today.getDate() + offset);
-      const dayOfWeek = date.getDay();
+      const date = new Date(monday);
+      date.setDate(monday.getDate() + offset);
+      const currentDayOfWeek = date.getDay();
       
       // 平日のみ追加
-      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+      if (currentDayOfWeek !== 0 && currentDayOfWeek !== 6) {
         week.push(date);
       }
       
