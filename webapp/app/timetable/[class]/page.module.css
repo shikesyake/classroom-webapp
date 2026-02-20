@@ -311,6 +311,7 @@
   border-radius: 10px;
   padding: 1.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  color: #333;
 }
 
 .changesSection h2 {
@@ -321,14 +322,23 @@
 
 .changesList {
   list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .changeItem {
-  padding: 0.75rem;
-  border-left: 4px solid #e74c3c;
-  background: #fff5f5;
-  margin-bottom: 0.5rem;
-  border-radius: 4px;
+  border-left: 4px solid #e53935;
+  background: #f6f2f2;
+  border-radius: 6px;
+  padding: 0.9rem 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.changeText {
+  display: block;
+  white-space: pre-wrap;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
   color: #333;
 }
 

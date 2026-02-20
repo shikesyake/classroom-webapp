@@ -261,6 +261,34 @@ export default function TimetableClient() {
     return `64px repeat(${currentWeek.length}, 1fr)`;
   };
 
+  const formatDescriptionWithLineBreaks = (description: string): string => {
+    const normalized = description
+      .replace(/[０-９]/g, (char) => String.fromCharCode(char.charCodeAt(0) - 0xFEE0))
+      .replace(/[Ａ-Ｚ]/g, (char) => String.fromCharCode(char.charCodeAt(0) - 0xFEE0))
+      .replace(/[ａ-ｚ]/g, (char) => String.fromCharCode(char.charCodeAt(0) - 0xFEE0))
+      .replace(/ｈ/g, 'h')
+      .replace(/　/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    const dateHeaderMatch = normalized.match(/^\d{1,2}月\d{1,2}日\s*[（(][^）)]+[）)]/);
+    if (!dateHeaderMatch) {
+      return normalized;
+    }
+
+    const header = dateHeaderMatch[0];
+    const rest = normalized.slice(header.length).trim();
+    if (!rest) {
+      return header;
+    }
+
+    const formattedRest = rest
+      .replace(/([123]\s*[FM]\s*[1-6]\s*h)/g, '\n$1')
+      .trim();
+
+    return `${header}\n${formattedRest}`;
+  };
+
   if (!className) return <div>Loading...</div>;
 
   return (
@@ -411,7 +439,7 @@ export default function TimetableClient() {
           <ul className={styles.changesList}>
             {Array.from(new Set(changes.map(c => c.description))).map((description) => (
               <li key={description} className={styles.changeItem}>
-                {description}
+                <span className={styles.changeText}>{formatDescriptionWithLineBreaks(description)}</span>
               </li>
             ))}
           </ul>
