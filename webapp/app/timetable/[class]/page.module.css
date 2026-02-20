@@ -5,7 +5,8 @@
 }
 
 .header {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 1rem;
   margin-bottom: 1.5rem;
@@ -13,65 +14,86 @@
   background: white;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  justify-content: space-between;
 }
 
 .backButton {
-  background: #1a73e8;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 0.5rem 1.5rem;
+  background: #f5f9ff;
+  color: #1a73e8;
+  border: 1px solid #d6e4ff;
+  border-radius: 999px;
+  width: 42px;
+  height: 42px;
+  padding: 0;
   cursor: pointer;
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 1.1rem;
+  font-weight: 700;
   transition: all 0.2s ease;
-  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 16px rgba(26, 115, 232, 0.15);
 }
 
 .backButton:hover {
-  background: #1557b0;
-  box-shadow: 0 1px 3px 0 rgba(60, 64, 67, 0.3), 0 4px 8px 3px rgba(60, 64, 67, 0.15);
+  background: #1a73e8;
+  color: white;
+  border-color: #1a73e8;
+  box-shadow: 0 8px 20px rgba(26, 115, 232, 0.25);
 }
 
 .title {
   font-size: 1.8rem;
   font-weight: 700;
   color: #333;
-  flex: 1;
+  text-align: center;
 }
 
 .courseSelector {
-  display: flex;
-  gap: 2rem;
-  align-items: center;
-}
-
-.buttonGroup {
-  display: flex;
-  gap: 0.5rem;
+  display: inline-flex;
+  align-items: stretch;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+  justify-self: end;
 }
 
 .courseButton {
   padding: 0.5rem 1rem;
-  border: 2px solid #ccc;
-  background: white;
-  color: #333;
-  border-radius: 4px;
+  border: none;
+  background: #f5f5f5;
+  color: white;
   cursor: pointer;
   font-weight: 500;
   transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+}
+
+.courseButton + .courseButton {
+  border-left: 2px solid #ccc;
 }
 
 .courseButton:hover {
-  border-color: #1a73e8;
-  color: #1a73e8;
+  filter: brightness(1.05);
 }
 
-.courseButton.active {
-  background: #1a73e8;
-  color: white;
-  border-color: #1a73e8;
+.network {
+  background: var(--color-red);
+}
+
+.content {
+  background: var(--color-yellow);
+}
+
+.math {
+  background: var(--color-blue);
+}
+
+.english {
+  background: var(--color-purple);
 }
 
 .timetableWrapper {
@@ -100,12 +122,15 @@
 .periodHeader {
   background: #2c3e50;
   color: white;
-  padding: 1rem;
+  padding: 0.6rem;
   border-radius: 8px;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 64px;
 }
 
 .dayHeader {
@@ -162,14 +187,14 @@
 
 .periodLabel {
   background: #ecf0f1;
-  padding: 1rem;
+  padding: 0.6rem;
   border-radius: 8px;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #2c3e50;
-  min-width: 120px;
+  min-width: 64px;
 }
 
 .period {
@@ -290,8 +315,8 @@
 
 @media (max-width: 768px) {
   .header {
-    flex-direction: column;
-    align-items: stretch;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
     gap: 0.75rem;
     padding: 0.75rem;
   }
@@ -302,23 +327,17 @@
   }
   
   .backButton {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
+    width: 38px;
+    height: 38px;
+    font-size: 1rem;
   }
   
   .courseSelector {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .buttonGroup {
-    width: 100%;
-    justify-content: center;
+    max-width: 100%;
   }
   
   .courseButton {
-    flex: 1;
-    padding: 0.5rem 0.75rem;
+    padding: 0.45rem 0.7rem;
     font-size: 0.85rem;
   }
   
@@ -342,6 +361,6 @@
   }
   
   .periodLabel {
-    min-width: 120px;
+    min-width: 64px;
   }
 }

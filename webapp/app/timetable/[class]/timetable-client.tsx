@@ -251,7 +251,7 @@ export default function TimetableClient() {
 
   const getGridTemplateColumns = (): string => {
     // 時間列 + 日付列 × currentWeek.length
-    return `80px repeat(${currentWeek.length}, 1fr)`;
+    return `64px repeat(${currentWeek.length}, 1fr)`;
   };
 
   if (!className) return <div>Loading...</div>;
@@ -259,42 +259,39 @@ export default function TimetableClient() {
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <button className={styles.backButton} onClick={() => router.push('/')}>
-          ← 戻る
+        <button
+          className={styles.backButton}
+          onClick={() => router.push('/')}
+          aria-label="戻る"
+        >
+          ←
         </button>
-        <h1 className={styles.title}>{className} - 時間割</h1>
+        <h1 className={styles.title}>{className}</h1>
         
         {/* 履修選択ボタン */}
         <div className={styles.courseSelector}>
-          <div className={styles.buttonGroup}>
-            <button 
-              className={`${styles.courseButton} ${courseSelection.specialty === 'system' ? styles.active : ''}`}
-              onClick={() => setCourseSelection({...courseSelection, specialty: 'system'})}
-            >
-              システム
-            </button>
-            <button 
-              className={`${styles.courseButton} ${courseSelection.specialty === 'design' ? styles.active : ''}`}
-              onClick={() => setCourseSelection({...courseSelection, specialty: 'design'})}
-            >
-              デザイン
-            </button>
-          </div>
-          
-          <div className={styles.buttonGroup}>
-            <button 
-              className={`${styles.courseButton} ${courseSelection.language === 'math' ? styles.active : ''}`}
-              onClick={() => setCourseSelection({...courseSelection, language: 'math'})}
-            >
-              数学
-            </button>
-            <button 
-              className={`${styles.courseButton} ${courseSelection.language === 'english' ? styles.active : ''}`}
-              onClick={() => setCourseSelection({...courseSelection, language: 'english'})}
-            >
-              英語
-            </button>
-          </div>
+          <button
+            className={`${styles.courseButton} ${courseSelection.specialty === 'system' ? styles.network : styles.content}`}
+            onClick={() =>
+              setCourseSelection(prev => ({
+                ...prev,
+                specialty: prev.specialty === 'system' ? 'design' : 'system',
+              }))
+            }
+          >
+            シス/デザ
+          </button>
+          <button
+            className={`${styles.courseButton} ${courseSelection.language === 'math' ? styles.math : styles.english}`}
+            onClick={() =>
+              setCourseSelection(prev => ({
+                ...prev,
+                language: prev.language === 'math' ? 'english' : 'math',
+              }))
+            }
+          >
+            数/英
+          </button>
         </div>
       </header>
 
@@ -302,7 +299,10 @@ export default function TimetableClient() {
         <div className={styles.timetable} style={{ gridTemplateColumns: getGridTemplateColumns() }}>
           {/* ヘッダー */}
           <div className={styles.headerRow}>
-            <div className={styles.periodHeader}>時間割</div>
+            <div className={styles.periodHeader}>
+              <div className={styles.weekday}>曜日</div>
+              <div className={styles.date}>日付</div>
+            </div>
             {currentWeek.map((date, index) => {
               const weekday = getWeekday(date);
               const holiday = isHoliday(date);
