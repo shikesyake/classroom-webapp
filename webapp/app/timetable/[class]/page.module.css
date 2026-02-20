@@ -289,8 +289,37 @@
 }
 
 @media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+    padding: 0.75rem;
+  }
+  
   .title {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
+    text-align: center;
+  }
+  
+  .backButton {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .courseSelector {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .buttonGroup {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .courseButton {
+    flex: 1;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
   }
   
   .timetableWrapper {
