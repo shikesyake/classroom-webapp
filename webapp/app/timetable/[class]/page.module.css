@@ -2,10 +2,13 @@
   min-height: 100vh;
   background: #1a1a2e;
   padding: 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .header {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 1rem;
   margin-bottom: 1.5rem;
@@ -13,65 +16,86 @@
   background: white;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  justify-content: space-between;
 }
 
 .backButton {
-  background: #1a73e8;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 0.5rem 1.5rem;
+  background: #f5f9ff;
+  color: #1a73e8;
+  border: 1px solid #d6e4ff;
+  border-radius: 999px;
+  width: 42px;
+  height: 42px;
+  padding: 0;
   cursor: pointer;
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 1.1rem;
+  font-weight: 700;
   transition: all 0.2s ease;
-  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 16px rgba(26, 115, 232, 0.15);
 }
 
 .backButton:hover {
-  background: #1557b0;
-  box-shadow: 0 1px 3px 0 rgba(60, 64, 67, 0.3), 0 4px 8px 3px rgba(60, 64, 67, 0.15);
+  background: #1a73e8;
+  color: white;
+  border-color: #1a73e8;
+  box-shadow: 0 8px 20px rgba(26, 115, 232, 0.25);
 }
 
 .title {
   font-size: 1.8rem;
   font-weight: 700;
   color: #333;
-  flex: 1;
+  text-align: center;
 }
 
 .courseSelector {
-  display: flex;
-  gap: 2rem;
-  align-items: center;
-}
-
-.buttonGroup {
-  display: flex;
-  gap: 0.5rem;
+  display: inline-flex;
+  align-items: stretch;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+  justify-self: end;
 }
 
 .courseButton {
   padding: 0.5rem 1rem;
-  border: 2px solid #ccc;
-  background: white;
-  color: #333;
-  border-radius: 4px;
+  border: none;
+  background: #f5f5f5;
+  color: white;
   cursor: pointer;
   font-weight: 500;
   transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+}
+
+.courseButton + .courseButton {
+  border-left: 2px solid #ccc;
 }
 
 .courseButton:hover {
-  border-color: #1a73e8;
-  color: #1a73e8;
+  filter: brightness(1.05);
 }
 
-.courseButton.active {
-  background: #1a73e8;
-  color: white;
-  border-color: #1a73e8;
+.network {
+  background: var(--color-red);
+}
+
+.content {
+  background: var(--color-yellow);
+}
+
+.math {
+  background: var(--color-blue);
+}
+
+.english {
+  background: var(--color-purple);
 }
 
 .timetableWrapper {
@@ -79,16 +103,17 @@
   background: white;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  padding: 1rem;
+  padding: 0.75rem;
   -webkit-overflow-scrolling: touch;
 }
 
 .timetable {
   display: grid;
-  gap: 0.5rem;
+  gap: 0.4rem;
   min-width: min-content;
   align-content: start;
-  grid-auto-rows: 85px;
+  grid-auto-rows: 72px;
+  grid-auto-columns: minmax(110px, 1fr);
 }
 
 .headerRow {
@@ -99,21 +124,25 @@
 .periodHeader {
   background: #2c3e50;
   color: white;
-  padding: 1rem;
+  padding: 0.6rem;
   border-radius: 8px;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 64px;
 }
 
 .dayHeader {
   background: #34495e;
   color: white;
-  padding: 0.75rem;
+  padding: 0.6rem;
   border-radius: 8px;
   text-align: center;
   position: relative;
+  min-width: 110px;
 }
 
 .fullDayHeader {
@@ -160,25 +189,29 @@
 
 .periodLabel {
   background: #ecf0f1;
-  padding: 1rem;
+  padding: 0.6rem;
   border-radius: 8px;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #2c3e50;
+  min-width: 64px;
 }
 
 .period {
-  padding: 1rem;
+  padding: 0.6rem;
   border-radius: 8px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   color: white;
   font-weight: 600;
   text-align: center;
   transition: transform 0.2s ease;
+  min-width: 110px;
+  overflow: hidden;
 }
 
 .period:hover {
@@ -188,11 +221,16 @@
 .emptyPeriod {
   background: #ecf0f1;
   border-radius: 8px;
+  min-width: 110px;
 }
 
 .subjectName {
   font-size: 0.9rem;
   line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .location {
@@ -205,22 +243,33 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.2rem;
+  width: 100%;
+  max-width: 100%;
 }
 
 .originalSubject {
   text-decoration: line-through;
   opacity: 0.7;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .arrow {
-  font-size: 1.2rem;
+  font-size: 0.9rem;
+  line-height: 1;
 }
 
 .newSubject {
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 /* 色分け */
@@ -262,6 +311,7 @@
   border-radius: 10px;
   padding: 1.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  color: #333;
 }
 
 .changesSection h2 {
@@ -272,29 +322,74 @@
 
 .changesList {
   list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .changeItem {
-  padding: 0.75rem;
-  border-left: 4px solid #e74c3c;
-  background: #fff5f5;
-  margin-bottom: 0.5rem;
-  border-radius: 4px;
+  border-left: 4px solid #e53935;
+  background: #f6f2f2;
+  border-radius: 6px;
+  padding: 0.9rem 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.changeText {
+  display: block;
+  white-space: pre-wrap;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
   color: #333;
 }
 
 @media (max-width: 768px) {
+  .header {
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+  }
+  
   .title {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
+    text-align: center;
+  }
+  
+  .backButton {
+    width: 38px;
+    height: 38px;
+    font-size: 1rem;
+  }
+  
+  .courseSelector {
+    max-width: 100%;
+  }
+  
+  .courseButton {
+    padding: 0.45rem 0.7rem;
+    font-size: 0.85rem;
   }
   
   .timetableWrapper {
     padding: 0.5rem;
   }
   
+  .timetable {
+    grid-auto-columns: minmax(110px, 1fr);
+  }
+  
   .period {
     font-size: 0.8rem;
     padding: 0.5rem;
     min-height: 60px;
+    min-width: 110px;
+  }
+  
+  .dayHeader {
+    min-width: 110px;
+  }
+  
+  .periodLabel {
+    min-width: 64px;
   }
 }

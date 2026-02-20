@@ -30,6 +30,15 @@ interface FormattedData {
   errors?: string[];
 }
 
+interface WebappChange {
+  date: string;
+  classYear: string;
+  period: number;
+  day: string;
+  newSubject: string;
+  description: string;
+}
+
 interface RawFormData {
   url: string;
   title: string;
@@ -189,6 +198,80 @@ function parseDate(text: string, year: number = 2026): string | null {
   return null;
 }
 
+function extractClassPeriodSubjectChanges(text: string, date: string): Change[] {
+  const normalized = normalizeText(text)
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  const withoutDate = normalized
+    .replace(/^\d{1,2}月\d{1,2}日（[^）]+）\s*/, '')
+    .trim();
+
+  const segmentedChanges: Change[] = [];
+  const segmentPattern = /([123][FM])\s*([1-6])\s*h\s*(.*?)(?=(?:[123][FM]\s*[1-6]\s*h)|$)/g;
+
+  let match: RegExpExecArray | null;
+  while ((match = segmentPattern.exec(withoutDate)) !== null) {
+    const classInfo = parseClass(match[1]);
+    const period = parseInt(match[2], 10);
+    const subject = match[3].trim().replace(/\s+/g, ' ');
+
+    if (!classInfo || !subject) {
+      continue;
+    }
+
+    segmentedChanges.push({
+      date,
+      classes: [classInfo],
+      periods: [period],
+      subject,
+      description: text,
+    });
+  }
+
+  return segmentedChanges;
+}
+
+function toWebappChanges(data: FormattedData): WebappChange[] {
+  const changes: WebappChange[] = [];
+
+  data.changes.forEach((change) => {
+    const classes = change.classes || [];
+    const periods = change.periods || [];
+
+    classes.forEach((classInfo) => {
+      const classYear = `${classInfo.year}${classInfo.type}`;
+
+      if (periods.length === 1 && periods[0] === 0) {
+        for (let p = 0; p <= 6; p++) {
+          changes.push({
+            date: change.date,
+            classYear,
+            period: p,
+            day: '',
+            newSubject: change.subject,
+            description: change.description,
+          });
+        }
+        return;
+      }
+
+      periods.forEach((period) => {
+        changes.push({
+          date: change.date,
+          classYear,
+          period: period - 1,
+          day: '',
+          newSubject: change.subject,
+          description: change.description,
+        });
+      });
+    });
+  });
+
+  return changes;
+}
+
 // データを整形
 function formatData(rawData: RawFormData): FormattedData {
   const changes: Change[] = [];
@@ -204,6 +287,12 @@ function formatData(rawData: RawFormData): FormattedData {
     if (!date) {
       console.log(`  ⊘ スキップ（日付なし）: ${text.substring(0, 50)}...`);
       return; // 日付がない場合はスキップ
+    }
+
+    const segmentedChanges = extractClassPeriodSubjectChanges(text, date);
+    if (segmentedChanges.length > 0) {
+      changes.push(...segmentedChanges);
+      return;
     }
 
     // クラスを抽出（正規化後のテキストで検索）
@@ -299,6 +388,19 @@ async function saveFormData(data: FormattedData) {
   const latestPath = path.join(OUTPUT_DIR, 'latest.json');
   fs.writeFileSync(latestPath, JSON.stringify(data, null, 2), 'utf8');
   console.log(`✓ 最新データを更新しました: ${latestPath}`);
+
+  const webappChanges = toWebappChanges(data);
+  const webappPublicPath = path.join(process.cwd(), 'webapp', 'public', 'changes.json');
+  fs.mkdirSync(path.dirname(webappPublicPath), { recursive: true });
+  fs.writeFileSync(webappPublicPath, JSON.stringify(webappChanges, null, 2), 'utf8');
+  console.log(`✓ Webアプリ公開データを更新しました: ${webappPublicPath}`);
+
+  const webappOutDir = path.join(process.cwd(), 'webapp', 'out');
+  if (fs.existsSync(webappOutDir)) {
+    const webappOutPath = path.join(webappOutDir, 'changes.json');
+    fs.writeFileSync(webappOutPath, JSON.stringify(webappChanges, null, 2), 'utf8');
+    console.log(`✓ 配信用データを更新しました: ${webappOutPath}`);
+  }
 }
 
 async function main() {

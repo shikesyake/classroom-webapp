@@ -1,17 +1,13 @@
-import TimetableClient from './TimetableClient';
+import timetableData from '@/data/timetable.json';
+import TimetableClient from './timetable-client';
 
 export async function generateStaticParams() {
-  return [
-    { class: '1F' },
-    { class: '2F' },
-    { class: '3F' },
-    { class: '1M' },
-    { class: '2M' },
-    { class: '3M' },
-  ];
+  return Object.keys(timetableData).map(className => ({
+    class: className,
+  }));
 }
 
-export default function TimetablePage({ params }: { params: { class: string } }) {
-  return <TimetableClient className={params.class} />;
+export default function TimetablePage() {
+  return <TimetableClient />;
 }
 
